@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SIGNAL — Feedback System</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ░░ BACKGROUND PARTICLES ░░ -->
+  <canvas id="particles"></canvas>
+
+  <!-- ░░ HEADER ░░ -->
+  <header class="header">
+    <div class="logo">
+      <span class="logo-bracket">[</span>
+      SIG<em>NAL</em>
+      <span class="logo-bracket">]</span>
+    </div>
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="form">
+        <span class="tab-icon">◈</span> Submit
+      </button>
+      <button class="tab-btn" data-tab="dashboard">
+        <span class="tab-icon">◉</span> Dashboard
+      </button>
+    </nav>
+    <div class="sys-status">
+      <span class="pulse-dot"></span>
+      SYS ONLINE
+    </div>
+  </header>
+
+  <!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+       PAGE — FEEDBACK FORM
+  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
+  <main class="page active" id="page-form">
+
+    <div class="page-intro">
+      <p class="label-tag">// TRANSMISSION INTERFACE</p>
+      <h1 class="hero-title">SEND YOUR <span>SIGNAL.</span></h1>
+      <p class="hero-sub">Your message is validated, transmitted via POST request, and stored directly in MongoDB. Watch it appear live on the dashboard.</p>
+    </div>
+
+    <div class="form-wrapper">
+
+      <!-- FORM -->
+      <section class="glass-card form-card">
+        <div class="card-glow"></div>
+
+        <div class="field-group">
+          <label class="field-label" for="inp-name">
+            <span class="field-num">01</span> Full Name
+          </label>
+          <input class="field-input" id="inp-name" type="text" placeholder="Your full name" autocomplete="off"/>
+          <span class="field-err" id="err-name"></span>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="inp-email">
+            <span class="field-num">02</span> Email Address
+          </label>
+          <input class="field-input" id="inp-email" type="email" placeholder="you@email.com" autocomplete="off"/>
+          <span class="field-err" id="err-email"></span>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="inp-category">
+            <span class="field-num">03</span> Category
+          </label>
+          <div class="select-wrap">
+            <select class="field-input field-select" id="inp-category">
+              <option value="">— Choose category —</option>
+              <option value="General">General</option>
+              <option value="Bug">Bug Report</option>
+              <option value="Feature">Feature Request</option>
+              <option value="Praise">Praise</option>
+            </select>
+            <span class="select-arrow">▾</span>
+          </div>
+          <span class="field-err" id="err-category"></span>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">
+            <span class="field-num">04</span> Signal Strength — Rating
+          </label>
+          <div class="stars" id="stars">
+            <button class="star-btn" type="button" data-v="1">★</button>
+            <button class="star-btn" type="button" data-v="2">★</button>
+            <button class="star-btn" type="button" data-v="3">★</button>
+            <button class="star-btn" type="button" data-v="4">★</button>
+            <button class="star-btn" type="button" data-v="5">★</button>
+          </div>
+          <span class="field-err" id="err-rating"></span>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="inp-message">
+            <span class="field-num">05</span> Message
+          </label>
+          <textarea class="field-input field-textarea" id="inp-message" placeholder="Write your message here..."></textarea>
+          <span class="field-err" id="err-message"></span>
+        </div>
+
+        <button class="submit-btn" id="submit-btn" type="button">
+          <span class="btn-text" id="btn-text">⟶ &nbsp;TRANSMIT SIGNAL</span>
+          <span class="btn-shine"></span>
+        </button>
+
+      </section>
+
+      <!-- SIDE PANEL -->
+      <aside class="side-col">
+
+        <div class="glass-card side-stat-card">
+          <p class="side-label">// Total Signals</p>
+          <p class="side-num" id="side-total">—</p>
+          <p class="side-hint">submissions in database</p>
+        </div>
+
+        <div class="glass-card side-stat-card accent-pink">
+          <p class="side-label">// Avg Rating</p>
+          <p class="side-num pink" id="side-avg">—</p>
+          <p class="side-hint">out of 5 stars</p>
+        </div>
+
+        <div class="glass-card pipeline-card">
+          <p class="side-label">// Data Pipeline</p>
+          <ol class="pipeline-list">
+            <li><strong>HTML Form</strong><br/>User fills all fields</li>
+            <li><strong>JS Validation</strong><br/>Frontend checks inputs</li>
+            <li><strong>fetch() POST</strong><br/>Sends JSON to server</li>
+            <li><strong>Express Route</strong><br/>Receives &amp; validates</li>
+            <li><strong>MongoDB</strong><br/>Inserts document to DB</li>
+            <li><strong>Dashboard</strong><br/>Reads &amp; renders live</li>
+          </ol>
+        </div>
+
+      </aside>
+    </div>
+  </main>
+
+  <!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+       PAGE — DASHBOARD
+  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
+  <main class="page" id="page-dashboard">
+
+    <div class="page-intro">
+      <p class="label-tag">// MISSION CONTROL</p>
+      <h1 class="hero-title">FEEDBACK <span>DASHBOARD.</span></h1>
+    </div>
+
+    <!-- STAT CARDS -->
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="stat-num cyan"  id="d-total">—</div>
+        <div class="stat-lbl">Total Signals</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num pink"  id="d-avg">—</div>
+        <div class="stat-lbl">Avg Rating</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num green" id="d-today">—</div>
+        <div class="stat-lbl">Today</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num orange" id="d-bugs">—</div>
+        <div class="stat-lbl">Bug Reports</div>
+      </div>
+    </div>
+
+    <!-- CHARTS -->
+    <div class="charts-row">
+      <div class="glass-card chart-card">
+        <p class="chart-title">// Category Breakdown</p>
+        <div id="cat-chart" class="bar-chart"></div>
+      </div>
+      <div class="glass-card chart-card">
+        <p class="chart-title">// Rating Distribution</p>
+        <div id="rating-chart" class="bar-chart"></div>
+      </div>
+    </div>
+
+    <!-- CONTROLS -->
+    <div class="table-controls">
+      <div class="filter-group">
+        <span class="filter-lbl">Filter:</span>
+        <button class="filter-btn active" data-cat="All">All</button>
+        <button class="filter-btn" data-cat="General">General</button>
+        <button class="filter-btn" data-cat="Bug">Bug</button>
+        <button class="filter-btn" data-cat="Feature">Feature</button>
+        <button class="filter-btn" data-cat="Praise">Praise</button>
+      </div>
+      <div class="right-controls">
+        <input class="search-box" id="search-box" placeholder="⌕  Search..."/>
+        <button class="refresh-btn" id="refresh-btn">↺ Refresh</button>
+      </div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-card glass-card">
+      <div class="table-head">
+        <span>#</span>
+        <span>Sender / Message</span>
+        <span>Category</span>
+        <span>Rating</span>
+        <span>Date</span>
+        <span>Action</span>
+      </div>
+      <div id="table-body">
+        <div class="tbl-empty">⟳ Loading transmissions...</div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ░░ MODAL ░░ -->
+  <div class="modal-bg" id="modal-bg">
+    <div class="modal-box glass-card">
+      <button class="modal-close" id="modal-close">✕</button>
+      <p class="modal-tag">// Transmission Detail</p>
+      <div id="modal-content"></div>
+    </div>
+  </div>
+
+  <!-- ░░ TOAST ░░ -->
+  <div class="toast" id="toast">
+    <span class="toast-icon" id="toast-icon">◈</span>
+    <div>
+      <div class="toast-title" id="toast-title"></div>
+      <div class="toast-body"  id="toast-body"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
