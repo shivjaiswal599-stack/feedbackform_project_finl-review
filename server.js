@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════
-//  server-mysql.js  —  SIGNAL Backend Server (MySQL)
+//  server-mysql.js  —  HearMe Backend Server (MySQL)
 // ═══════════════════════════════════════════════════════
 
 require('dotenv').config();

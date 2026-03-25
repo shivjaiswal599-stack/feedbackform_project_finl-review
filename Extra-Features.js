@@ -1,5 +1,5 @@
 /* ============================================================
-   SIGNAL FEEDBACK — 6 UNIQUE FEATURES
+   HearMe FEEDBACK — 6 UNIQUE FEATURES
    Drop this <script> at the bottom of your HTML page (before </body>)
    Add the companion CSS below or in your stylesheet.
    MySQL backend untouched — only frontend JS added here.
@@ -9,7 +9,7 @@
   "use strict";
 
   /* ──────────────────────────────────────────────
-     INJECT STYLES
+      STYLES Creation
   ────────────────────────────────────────────── */
   const style = document.createElement("style");
   style.textContent = `
@@ -372,9 +372,9 @@
   }
 
   /* ──────────────────────────────────────────────
-     2. MOOD SELECTOR
+     2. Emoji
      Auto-attaches above the submit form.
-     Writes chosen mood to a hidden input #sig_mood
+     Writes chosen Emoji to a hidden input #feel_mood
   ────────────────────────────────────────────── */
   (function initMood() {
     const moods = [
@@ -424,7 +424,7 @@
 
   /* ──────────────────────────────────────────────
      3. LIVE FEED
-     Shows recent submissions. Polls your /api/signals endpoint
+     Shows recent submissions. Polls your /api/HearMe endpoint
      every 8 s. Falls back to demo data if unavailable.
   ────────────────────────────────────────────── */
   (function initFeed() {
@@ -603,7 +603,7 @@
 
   /* ──────────────────────────────────────────────
      6. SENTIMENT GAUGE
-     Fetches /api/signals/stats for live average.
+     Fetches /api/HearMe/stats for live average.
      Renders animated SVG arc gauge.
   ────────────────────────────────────────────── */
   (function initGauge() {

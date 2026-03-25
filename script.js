@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════
-//  script.js  —  SIGNAL Frontend Logic
+//  script.js  —  HearMe Frontend Logic
 //  Sections:
 //    1. Particle Canvas
 //    2. Tab Switching
