@@ -672,7 +672,7 @@ function deleteFeedback(e, id) {
       try {
         const data = JSON.parse(xhr.responseText);
         if (data.success) {
-          allFeedbacks = allFeedbacks.filter(f => f._id !== id);
+          allFeedbacks = allFeedbacks.filter(f => f.id !== id);
           renderTable();
           loadStats();               // refresh charts + counts
           showToast('◈ DELETED', 'Feedback removed successfully.', false);
@@ -697,7 +697,7 @@ function deleteFeedback(e, id) {
 
 // ── 9. MODAL ─────────────────────────────────────────────
 function openModal(id) {
-  const f = allFeedbacks.find(f => f._id === id);
+  const f = allFeedbacks.find(f => f.id === id);
   if (!f) return;
 
   const stars = '★'.repeat(f.rating) + '☆'.repeat(5 - f.rating);
