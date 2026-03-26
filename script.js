@@ -99,14 +99,14 @@ function createDashboardPage() {
       <h1 class="hero-title">FEEDBACK <span>DASHBOARD.</span></h1>
     </div>
     <div class="stats-row">
-      <div class="stat-box"><div class="stat-num cyan" id="d-total">—</div><div class="stat-lbl">Total Signals</div></div>
-      <div class="stat-box"><div class="stat-num pink" id="d-avg">—</div><div class="stat-lbl">Avg Rating</div></div>
-      <div class="stat-box"><div class="stat-num green" id="d-today">—</div><div class="stat-lbl">Today</div></div>
-      <div class="stat-box"><div class="stat-num orange" id="d-bugs">—</div><div class="stat-lbl">Bug Reports</div></div>
+      <div class="stat-box-modern"><div class="stat-num cyan" id="d-total">—</div><div class="stat-lbl">Total Signals</div></div>
+      <div class="stat-box-modern"><div class="stat-num pink" id="d-avg">—</div><div class="stat-lbl">Avg Rating</div></div>
+      <div class="stat-box-modern"><div class="stat-num green" id="d-today">—</div><div class="stat-lbl">Today</div></div>
+      <div class="stat-box-modern"><div class="stat-num orange" id="d-bugs">—</div><div class="stat-lbl">Bug Reports</div></div>
     </div>
     <div class="charts-row">
-      <div class="glass-card chart-card"><p class="chart-title">// Category Breakdown</p><div id="cat-chart" class="bar-chart"></div></div>
-      <div class="glass-card chart-card"><p class="chart-title">// Rating Distribution</p><div id="rating-chart" class="bar-chart"></div></div>
+      <div class="chart-card-modern"><p class="chart-title">// Category Breakdown</p><div id="cat-chart" class="bar-chart"></div></div>
+      <div class="chart-card-modern"><p class="chart-title">// Rating Distribution</p><div id="rating-chart" class="bar-chart"></div></div>
     </div>
     <div class="table-controls">
       <div class="filter-group">
