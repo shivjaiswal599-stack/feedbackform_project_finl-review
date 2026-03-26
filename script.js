@@ -541,8 +541,13 @@ function loadFeedbacks() {
 // ── 6. CHARTS ────────────────────────────────────────────
 function renderCatChart(catResult) {
   const cats   = ['General','Bug','Feature','Praise'];
-  const colors = { General:'#3a4a70', Bug:'#ff2d55', Feature:'#00e5ff', Praise:'#00ffb3' };
   const max    = Math.max(...catResult.map(c => c.count), 1);
+  const colors = {
+    'General': 'linear-gradient(90deg, #8a2be2, #9370db)',
+    'Bug': 'linear-gradient(90deg, #ff6b6b, #ff4757)',
+    'Feature': 'linear-gradient(90deg, #4ecdc4, #44a3aa)',
+    'Praise': 'linear-gradient(90deg, #ffd700, #ffb347)'
+  };
 
   document.getElementById('cat-chart').innerHTML = cats.map(cat => {
     const obj = catResult.find(c => c._id === cat);
@@ -552,7 +557,7 @@ function renderCatChart(catResult) {
       <div class="bar-row">
         <span class="bar-key">${cat}</span>
         <div class="bar-track">
-          <div class="bar-fill" style="width:0%; background:${colors[cat]}"
+          <div class="bar-fill" style="width:0%; background:${colors[cat]}; box-shadow: 0 0 10px ${cat === 'General' ? '#8a2be2' : cat === 'Bug' ? '#ff6b6b' : cat === 'Feature' ? '#4ecdc4' : '#ffd700'};"
                data-target="${pct}"></div>
         </div>
         <span class="bar-count">${cnt}</span>
@@ -569,7 +574,20 @@ function renderCatChart(catResult) {
 
 function renderRatingChart(ratingResult) {
   const max    = Math.max(...ratingResult.map(r => r.count), 1);
-  const colors = ['#ff2d55','#ff7b00','#ff7b00','#00ffb3','#00ffb3'];
+  const colors = {
+    1: 'linear-gradient(90deg, #ff4757, #ff6b6b)',
+    2: 'linear-gradient(90deg, #ff7b00, #ff9f43)',
+    3: 'linear-gradient(90deg, #ffd700, #ffb347)',
+    4: 'linear-gradient(90deg, #4ecdc4, #44a3aa)',
+    5: 'linear-gradient(90deg, #8a2be2, #9370db)'
+  };
+  const shadows = {
+    1: '#ff4757',
+    2: '#ff7b00',
+    3: '#ffd700',
+    4: '#4ecdc4',
+    5: '#8a2be2'
+  };
 
   document.getElementById('rating-chart').innerHTML = [1,2,3,4,5].map(star => {
     const obj = ratingResult.find(r => r._id === star);
@@ -579,7 +597,7 @@ function renderRatingChart(ratingResult) {
       <div class="bar-row">
         <span class="bar-key">${star} Star${star > 1 ? 's':''}</span>
         <div class="bar-track">
-          <div class="bar-fill" style="width:0%; background:${colors[star-1]}"
+          <div class="bar-fill" style="width:0%; background:${colors[star]}; box-shadow: 0 0 10px ${shadows[star]};"
                data-target="${pct}"></div>
         </div>
         <span class="bar-count">${cnt}</span>
