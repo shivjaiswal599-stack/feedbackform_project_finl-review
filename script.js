@@ -142,6 +142,14 @@ function createDashboardPage() {
   
   document.getElementById('search-box').addEventListener('input', renderTable);
   document.getElementById('refresh-btn').addEventListener('click', loadDashboard);
+  
+  // Re-initialize modal event listeners
+  const modalClose = document.getElementById('modal-close');
+  const modalBg = document.getElementById('modal-bg');
+  if (modalClose) modalClose.addEventListener('click', closeModal);
+  if (modalBg) modalBg.addEventListener('click', e => {
+    if (e.target === modalBg) closeModal();
+  });
 }
 
 // Check if this device has been unlocked before
@@ -536,8 +544,7 @@ function loadFeedbacks() {
   xhr.send();
 }
 
-// Refresh button
-document.getElementById('refresh-btn').addEventListener('click', loadDashboard);
+// Dashboard event listeners will be added dynamically when dashboard is created
 
 // ── 6. CHARTS ────────────────────────────────────────────
 function renderCatChart(catResult) {
@@ -597,17 +604,17 @@ function renderRatingChart(ratingResult) {
 
 // ── 7. TABLE ─────────────────────────────────────────────
 // Filter buttons
-document.querySelectorAll('.filter-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    activeFilter = btn.dataset.cat;
-    renderTable();
-  });
-});
+// document.querySelectorAll('.filter-btn').forEach(btn => {
+//   btn.addEventListener('click', () => {
+//     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+//     btn.classList.add('active');
+//     activeFilter = btn.dataset.cat;
+//     renderTable();
+//   });
+// });
 
 // Search
-document.getElementById('search-box').addEventListener('input', renderTable);
+// document.getElementById('search-box').addEventListener('input', renderTable);
 
 function renderTable() {
   const search = document.getElementById('search-box').value.toLowerCase();
