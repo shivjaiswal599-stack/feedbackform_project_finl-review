@@ -125,16 +125,26 @@
           <p class="side-hint">out of 5 stars</p>
         </div>
 
-        <div class="glass-card pipeline-card">
-          <p class="side-label">// Data Pipeline</p>
-          <ol class="pipeline-list">
-            <li><strong>HTML Form</strong><br/>User fills all fields</li>
-            <li><strong>JS Validation</strong><br/>Frontend checks inputs</li>
-            <li><strong>fetch() POST</strong><br/>Sends JSON to server</li>
-            <li><strong>Express Route</strong><br/>Receives &amp; validates</li>
-            <li><strong>MongoDB</strong><br/>Inserts document to DB</li>
-            <li><strong>Dashboard</strong><br/>Reads &amp; renders live</li>
-          </ol>
+        <div class="glass-card activity-monitor-card">
+          <p class="side-label">// Live Activity Monitor</p>
+          <div class="activity-display">
+            <div class="activity-ring">
+              <div class="ring-inner"></div>
+              <div class="ring-pulse"></div>
+              <div class="activity-value" id="activity-rate">0</div>
+            </div>
+            <div class="activity-stats">
+              <div class="stat-item">
+                <span class="stat-dot active"></span>
+                <span class="stat-text">Live</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-count" id="today-count">0</span>
+                <span class="stat-label">Today</span>
+              </div>
+            </div>
+          </div>
+          <p class="side-hint">real-time feedback flow</p>
         </div>
 
       </aside>

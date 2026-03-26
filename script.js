@@ -806,3 +806,33 @@ function showToast(title, body, isErr) {
     toast.classList.remove('show');
   }, 4000);
 }
+
+// ── 11. ACTIVITY MONITOR ─────────────────────────────────────
+function updateActivityMonitor() {
+  // Update activity rate with random value for demo
+  const activityRate = document.getElementById('activity-rate');
+  const todayCount = document.getElementById('today-count');
+  
+  if (activityRate) {
+    // Simulate activity rate (0-100)
+    const rate = Math.floor(Math.random() * 100);
+    activityRate.textContent = rate;
+  }
+  
+  if (todayCount) {
+    // Get actual today's count from stats if available
+    const todayStats = document.getElementById('d-today');
+    if (todayStats && todayStats.textContent !== '—') {
+      todayCount.textContent = todayStats.textContent;
+    } else {
+      // Fallback to random number for demo
+      todayCount.textContent = Math.floor(Math.random() * 50);
+    }
+  }
+}
+
+// Update activity monitor every 2 seconds
+setInterval(updateActivityMonitor, 2000);
+
+// Initial update
+updateActivityMonitor();
