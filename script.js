@@ -696,12 +696,8 @@ function deleteFeedback(e, id) {
 
 // ── 9. MODAL ─────────────────────────────────────────────
 function openModal(id) {
-  alert('openModal called with id: ' + id);
   const f = allFeedbacks.find(f => f.id === id);
-  if (!f) {
-    alert('No feedback found with id: ' + id);
-    return;
-  }
+  if (!f) return;
 
   const stars = '★'.repeat(f.rating) + '☆'.repeat(5 - f.rating);
   const date  = new Date(f.createdAt).toLocaleString();
@@ -737,7 +733,10 @@ function openModal(id) {
   }
 
   const modalBg = document.getElementById('modal-bg');
-  if (modalBg) modalBg.classList.add('open');
+  if (modalBg) {
+    modalBg.classList.add('open');
+    modalBg.style.display = 'flex';
+  }
 }
 
 // Initialize modal event listeners once
@@ -760,7 +759,10 @@ function initModalListeners() {
 
 function closeModal() {
   const modalBg = document.getElementById('modal-bg');
-  if (modalBg) modalBg.classList.remove('open');
+  if (modalBg) {
+    modalBg.classList.remove('open');
+    modalBg.style.display = 'none';
+  }
 }
 
 // Initialize modal listeners on page load
