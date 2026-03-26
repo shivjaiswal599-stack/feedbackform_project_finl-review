@@ -142,14 +142,6 @@ function createDashboardPage() {
   
   document.getElementById('search-box').addEventListener('input', renderTable);
   document.getElementById('refresh-btn').addEventListener('click', loadDashboard);
-  
-  // Re-initialize modal event listeners
-  const modalClose = document.getElementById('modal-close');
-  const modalBg = document.getElementById('modal-bg');
-  if (modalClose) modalClose.addEventListener('click', closeModal);
-  if (modalBg) modalBg.addEventListener('click', e => {
-    if (e.target === modalBg) closeModal();
-  });
 }
 
 // Check if this device has been unlocked before
@@ -710,49 +702,65 @@ function openModal(id) {
   const stars = '★'.repeat(f.rating) + '☆'.repeat(5 - f.rating);
   const date  = new Date(f.createdAt).toLocaleString();
 
-  document.getElementById('modal-content').innerHTML = `
-    <div class="modal-field">
-      <div class="modal-lbl">// Name</div>
-      <div class="modal-val">${f.name}</div>
-    </div>
-    <div class="modal-field">
-      <div class="modal-lbl">// Email</div>
-      <div class="modal-val">${f.email}</div>
-    </div>
-    <div class="modal-field">
-      <div class="modal-lbl">// Category</div>
-      <div class="modal-val">${f.category}</div>
-    </div>
-    <div class="modal-field">
-      <div class="modal-lbl">// Rating</div>
-      <div class="modal-val" style="color:var(--cyan);font-size:1.1rem;letter-spacing:0.1em">${stars} &nbsp;${f.rating}/5</div>
-    </div>
-    <div class="modal-field">
-      <div class="modal-lbl">// Message</div>
-      <div class="modal-val">${f.message}</div>
-    </div>
-    <div class="modal-field">
-      <div class="modal-lbl">// Submitted</div>
-      <div class="modal-val">${date}</div>
-    </div>
-  `;
+  const modalContent = document.getElementById('modal-content');
+  if (modalContent) {
+    modalContent.innerHTML = `
+      <div class="modal-field">
+        <div class="modal-lbl">// Name</div>
+        <div class="modal-val">${f.name}</div>
+      </div>
+      <div class="modal-field">
+        <div class="modal-lbl">// Email</div>
+        <div class="modal-val">${f.email}</div>
+      </div>
+      <div class="modal-field">
+        <div class="modal-lbl">// Category</div>
+        <div class="modal-val">${f.category}</div>
+      </div>
+      <div class="modal-field">
+        <div class="modal-lbl">// Rating</div>
+        <div class="modal-val" style="color:var(--cyan);font-size:1.1rem;letter-spacing:0.1em">${stars} &nbsp;${f.rating}/5</div>
+      </div>
+      <div class="modal-field">
+        <div class="modal-lbl">// Message</div>
+        <div class="modal-val">${f.message}</div>
+      </div>
+      <div class="modal-field">
+        <div class="modal-lbl">// Submitted</div>
+        <div class="modal-val">${date}</div>
+      </div>
+    `;
+  }
 
   const modalBg = document.getElementById('modal-bg');
   if (modalBg) modalBg.classList.add('open');
 }
 
-// Modal event listeners (with null checks)
-const modalClose = document.getElementById('modal-close');
-const modalBg = document.getElementById('modal-bg');
-if (modalClose) modalClose.addEventListener('click', closeModal);
-if (modalBg) modalBg.addEventListener('click', e => {
-  if (e.target === modalBg) closeModal();
-});
+// Initialize modal event listeners once
+function initModalListeners() {
+  const modalClose = document.getElementById('modal-close');
+  const modalBg = document.getElementById('modal-bg');
+  
+  if (modalClose && !modalClose.hasAttribute('data-listener')) {
+    modalClose.addEventListener('click', closeModal);
+    modalClose.setAttribute('data-listener', 'true');
+  }
+  
+  if (modalBg && !modalBg.hasAttribute('data-listener')) {
+    modalBg.addEventListener('click', e => {
+      if (e.target === modalBg) closeModal();
+    });
+    modalBg.setAttribute('data-listener', 'true');
+  }
+}
 
 function closeModal() {
+  const modalBg = document.getElementById('modal-bg');
   if (modalBg) modalBg.classList.remove('open');
 }
 
+// Initialize modal listeners on page load
+initModalListeners();
 
 // ── 10. TOAST ────────────────────────────────────────────
 let toastTimer;
