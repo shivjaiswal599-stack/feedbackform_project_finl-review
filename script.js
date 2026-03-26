@@ -96,7 +96,7 @@ function createDashboardPage() {
   <main class="page" id="page-dashboard">
     <div class="page-intro">
       <p class="label-tag">// MISSION CONTROL</p>
-      <h1 class="hero-title">FEEDBACK <span>DASHBOARD.</span></h1>
+      <h1 class="hero-title">FEEDBACK <span>Admin Dashboard.</span></h1>
     </div>
     <div class="stats-row">
       <div class="stat-box-modern"><div class="stat-num cyan" id="d-total">—</div><div class="stat-lbl">Total Signals</div></div>
