@@ -730,15 +730,20 @@ function openModal(id) {
     </div>
   `;
 
-  document.getElementById('modal-bg').classList.add('open');
+  const modalBg = document.getElementById('modal-bg');
+  if (modalBg) modalBg.classList.add('open');
 }
 
-document.getElementById('modal-close').addEventListener('click', closeModal);
-document.getElementById('modal-bg').addEventListener('click', e => {
-  if (e.target === document.getElementById('modal-bg')) closeModal();
+// Modal event listeners (with null checks)
+const modalClose = document.getElementById('modal-close');
+const modalBg = document.getElementById('modal-bg');
+if (modalClose) modalClose.addEventListener('click', closeModal);
+if (modalBg) modalBg.addEventListener('click', e => {
+  if (e.target === modalBg) closeModal();
 });
+
 function closeModal() {
-  document.getElementById('modal-bg').classList.remove('open');
+  if (modalBg) modalBg.classList.remove('open');
 }
 
 
