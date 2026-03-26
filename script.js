@@ -696,8 +696,12 @@ function deleteFeedback(e, id) {
 
 // ── 9. MODAL ─────────────────────────────────────────────
 function openModal(id) {
+  alert('openModal called with id: ' + id);
   const f = allFeedbacks.find(f => f.id === id);
-  if (!f) return;
+  if (!f) {
+    alert('No feedback found with id: ' + id);
+    return;
+  }
 
   const stars = '★'.repeat(f.rating) + '☆'.repeat(5 - f.rating);
   const date  = new Date(f.createdAt).toLocaleString();
