@@ -637,7 +637,7 @@ function renderTable() {
       day: 'numeric', month: 'short', year: 'numeric'
     });
     return `
-      <div class="tbl-row" onclick="openModal('${f._id}')">
+      <div class="tbl-row" onclick="openModal('${f.id}')">
         <span class="tbl-id">${String(i+1).padStart(2,'0')}</span>
         <span>
           <div class="tbl-name">${f.name}</div>
@@ -647,7 +647,7 @@ function renderTable() {
         <span class="tbl-rating ${rClass(f.rating)}">${f.rating}/5</span>
         <span class="tbl-date">${date}</span>
         <span>
-          <button class="del-btn" onclick="deleteFeedback(event,'${f._id}')">Delete</button>
+          <button class="del-btn" onclick="deleteFeedback(event,'${f.id}')">Delete</button>
         </span>
       </div>`;
   }).join('');
