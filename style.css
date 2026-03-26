@@ -632,8 +632,8 @@ aside .side-col .glass-card.side-stat-card:nth-child(2):hover {
 .stat-box-modern {
   flex: 1;
   min-width: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
-  border: 1px solid rgba(255,255,255,0.08);
+  background: linear-gradient(135deg, rgba(138, 43, 226, 0.08), rgba(75, 0, 130, 0.04));
+  border: 1px solid rgba(138, 43, 226, 0.15);
   border-radius: 16px;
   padding: 1.5rem;
   position: relative;
@@ -647,7 +647,7 @@ aside .side-col .glass-card.side-stat-card:nth-child(2):hover {
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, var(--cyan), var(--pink), var(--cyan));
+  background: linear-gradient(90deg, rgba(218, 165, 32, 0.6), rgba(138, 43, 226, 0.8), rgba(218, 165, 32, 0.6));
   background-size: 200% 100%;
   animation: shimmer 3s linear infinite;
 }
@@ -665,8 +665,8 @@ aside .side-col .glass-card.side-stat-card:nth-child(2):hover {
 /* ── CHART CARDS ───────────────────────────────────── */
 .chart-card-modern {
   flex: 1;
-  background: linear-gradient(145deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-  border: 1px solid rgba(255,255,255,0.06);
+  background: linear-gradient(145deg, rgba(138, 43, 226, 0.06), rgba(75, 0, 130, 0.03));
+  border: 1px solid rgba(138, 43, 226, 0.12);
   border-radius: 20px;
   padding: 1.8rem;
   position: relative;
@@ -681,7 +681,7 @@ aside .side-col .glass-card.side-stat-card:nth-child(2):hover {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: conic-gradient(from 0deg, transparent, rgba(0, 229, 255, 0.1), transparent, rgba(255, 45, 85, 0.1), transparent);
+  background: conic-gradient(from 0deg, transparent, rgba(218, 165, 32, 0.08), transparent, rgba(138, 43, 226, 0.06), transparent);
   animation: rotate 20s linear infinite;
   opacity: 0;
   transition: opacity 0.3s;
