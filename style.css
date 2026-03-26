@@ -167,10 +167,30 @@ body {
 
 .form-card {
   padding: 2.5rem;
+  background: linear-gradient(135deg, rgba(138, 43, 226, 0.05), rgba(30, 144, 255, 0.05));
+  border: 1px solid rgba(138, 43, 226, 0.2);
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.form-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 25px 50px rgba(138, 43, 226, 0.15);
+  border-color: rgba(138, 43, 226, 0.3);
 }
 .form-card::before {
-  background: linear-gradient(90deg, var(--cyan), var(--pink));
-  opacity: 0.6;
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #8a2be2, #ff1493, #00bfff, #8a2be2);
+  background-size: 300% 100%;
+  animation: gradient-shift 4s ease infinite;
+}
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 .card-glow {
   position: absolute;
@@ -262,35 +282,160 @@ body {
 /* SUBMIT BUTTON */
 .submit-btn {
   width: 100%; padding: 0.95rem;
-  background: transparent;
-  border: 1px solid var(--cyan);
-  color: var(--cyan);
+  background: linear-gradient(135deg, rgba(138, 43, 226, 0.1), rgba(30, 144, 255, 0.1));
+  border: 1px solid rgba(138, 43, 226, 0.5);
+  color: #fff;
   font-family: var(--font-head);
   font-size: 1rem; font-weight: 600;
   letter-spacing: 0.3em; text-transform: uppercase;
-  cursor: pointer; border-radius: 2px;
+  cursor: pointer; border-radius: 12px;
   position: relative; overflow: hidden;
-  transition: color 0.35s, box-shadow 0.35s;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
 }
 .submit-btn::before {
   content: '';
   position: absolute; inset: 0;
-  background: var(--cyan);
-  transform: translateX(-101%);
-  transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+  background: linear-gradient(135deg, #8a2be2, #1e90ff, #ff1493, #8a2be2);
+  background-size: 300% 300%;
+  transform: translateX(-100%);
+  transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
   z-index: 0;
   pointer-events: none;
+  animation: gradient-move 3s ease infinite;
 }
-.submit-btn:hover::before   { transform: translateX(0); }
-.submit-btn:hover           { color: var(--bg); box-shadow: 0 0 35px rgba(0,229,255,0.35); }
-.btn-text                   { position: relative; z-index: 1; }
-.submit-btn:disabled        { opacity: 0.45; cursor: not-allowed; }
-.submit-btn:disabled::before{ transform: none; }
+.submit-btn:hover::before { 
+  transform: translateX(0); 
+  animation: gradient-move 1s ease infinite;
+}
+.submit-btn:hover { 
+  color: #fff;
+  box-shadow: 0 10px 40px rgba(138, 43, 226, 0.4);
+  transform: translateY(-2px);
+  border-color: rgba(138, 43, 226, 0.8);
+}
+.btn-text { 
+  position: relative; z-index: 1; 
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+.submit-btn:disabled { 
+  opacity: 0.45; 
+  cursor: not-allowed;
+  animation: none;
+}
+.submit-btn:disabled::before { 
+  transform: none;
+  animation: none;
+}
+
+@keyframes gradient-move {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
 
 /* ── SIDE COLUMN ────────────────────────────── */
 .side-col { display: flex; flex-direction: column; gap: 1.2rem; }
 
-.side-stat-card { padding: 1.5rem 1.6rem; }
+.side-stat-card { 
+  padding: 1.5rem 1.6rem; 
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* First card - Purple gradient */
+.side-stat-card:nth-child(1) {
+  background: linear-gradient(135deg, rgba(138, 43, 226, 0.1), rgba(75, 0, 130, 0.05));
+  border: 1px solid rgba(138, 43, 226, 0.3);
+}
+.side-stat-card:nth-child(1)::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg, transparent, rgba(138, 43, 226, 0.2), transparent, rgba(255, 20, 147, 0.1), transparent);
+  animation: rotate-purple 15s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.side-stat-card:nth-child(1):hover::before {
+  opacity: 1;
+}
+.side-stat-card:nth-child(1):hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(138, 43, 226, 0.2);
+  border-color: rgba(138, 43, 226, 0.5);
+}
+
+/* Second card - Emerald gradient */
+.side-stat-card:nth-child(2) {
+  background: linear-gradient(135deg, rgba(0, 255, 127, 0.1), rgba(0, 128, 128, 0.05));
+  border: 1px solid rgba(0, 255, 127, 0.3);
+}
+.side-stat-card:nth-child(2)::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 45deg, transparent, rgba(0, 255, 127, 0.2), transparent, rgba(64, 224, 208, 0.1), transparent);
+  animation: rotate-emerald 18s linear infinite reverse;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.side-stat-card:nth-child(2):hover::before {
+  opacity: 1;
+}
+.side-stat-card:nth-child(2):hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 255, 127, 0.2);
+  border-color: rgba(0, 255, 127, 0.5);
+}
+
+/* Third card - Sunset gradient */
+.side-stat-card:nth-child(3) {
+  background: linear-gradient(135deg, rgba(255, 94, 77, 0.1), rgba(255, 154, 0, 0.05));
+  border: 1px solid rgba(255, 94, 77, 0.3);
+}
+.side-stat-card:nth-child(3)::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 90deg, transparent, rgba(255, 94, 77, 0.2), transparent, rgba(255, 206, 84, 0.1), transparent);
+  animation: rotate-sunset 20s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.side-stat-card:nth-child(3):hover::before {
+  opacity: 1;
+}
+.side-stat-card:nth-child(3):hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(255, 94, 77, 0.2);
+  border-color: rgba(255, 94, 77, 0.5);
+}
+
+@keyframes rotate-purple {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes rotate-emerald {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes rotate-sunset {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 .side-num {
   font-family: var(--font-head);
   font-size: 2.8rem; font-weight: 700; line-height: 1;
