@@ -464,8 +464,11 @@
     /* Seed with demo */
     [...feedData].reverse().forEach(renderItem);
 
-    /* Poll real endpoint */
+    /* Poll real endpoint - DISABLED to prevent 404 errors */
     async function poll() {
+      // Disabled - using demo data only
+      return;
+      /* Original code:
       try {
         const r = await fetch("/api/signals?limit=5");
         if (!r.ok) throw new Error();
@@ -475,7 +478,8 @@
           list.innerHTML = "";
           [...data].reverse().forEach(renderItem);
         }
-      } catch (_) { /* keep demo data */ }
+      } catch (_) {  }
+      */
     }
 
     /* Add a new demo entry every 6 s if no real data */
@@ -648,18 +652,22 @@
     }
 
     async function fetchStats() {
+      // Disabled - using demo value only
+      setGauge(4.2, 5);
+      badge.textContent = "demo mode";
+      return;
+      /* Original code:
       try {
         const r = await fetch("/api/signals/stats");
         if (!r.ok) throw new Error();
         const d = await r.json();
         const avg = parseFloat(d.avg_rating || d.avgRating || 0);
-        /* If rating is 0–10 scale, halve it; if 0–5 use directly */
         setGauge(avg > 5 ? avg / 2 : avg, 5);
       } catch (_) {
-        /* Demo value */
         setGauge(4.2, 5);
         badge.textContent = "demo mode";
       }
+      */
     }
 
     fetchStats();

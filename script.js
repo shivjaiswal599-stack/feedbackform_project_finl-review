@@ -1,4 +1,5 @@
 // ═══════════════════════════════════════════════════════
+const API_URL = 'http://localhost:3000';
 //  script.js  —  HearMe Frontend Logic
 //  Sections:
 //    1. Particle Canvas
@@ -76,6 +77,78 @@
   resize(); spawnDots(); draw();
 })();
 
+// ── ADMIN PASSWORD PROTECTION ─────────────────────────────
+const ADMIN_PASSWORD = 'admin123'; // Change this to your password
+const ADMIN_KEY = 'admin_unlocked'; // localStorage key
+let dashboardUnlocked = false;
+
+// Check if this device has been unlocked before
+function checkAdminAccess() {
+  const isUnlocked = localStorage.getItem(ADMIN_KEY);
+  if (isUnlocked === 'true') {
+    // Auto-show dashboard on this device
+    showDashboardTab();
+    dashboardUnlocked = true;
+    console.log('Admin access granted on this device');
+  }
+}
+
+// Create and show dashboard tab
+function showDashboardTab() {
+  const tabsNav = document.querySelector('.tabs');
+  
+  // Check if tab already exists
+  if (document.querySelector('[data-tab="dashboard"]')) return;
+  
+  const dashboardTab = document.createElement('button');
+  dashboardTab.className = 'tab-btn';
+  dashboardTab.setAttribute('data-tab', 'dashboard');
+  dashboardTab.innerHTML = '<span class="tab-icon">◉</span> Dashboard';
+  dashboardTab.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    dashboardTab.classList.add('active');
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-dashboard').classList.add('active');
+    loadDashboard();
+  });
+  tabsNav.appendChild(dashboardTab);
+}
+
+// Function to unlock dashboard
+function unlockDashboard() {
+  const password = prompt('Enter admin password:');
+  if (password === ADMIN_PASSWORD) {
+    dashboardUnlocked = true;
+    
+    // Save to localStorage so dashboard shows on this device
+    localStorage.setItem(ADMIN_KEY, 'true');
+    
+    // Show dashboard tab
+    showDashboardTab();
+    
+    // Switch to dashboard
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector('[data-tab="dashboard"]').classList.add('active');
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-dashboard').classList.add('active');
+    loadDashboard();
+    
+    alert('Dashboard unlocked! This device now has permanent admin access.');
+  } else {
+    alert('Wrong password! Access denied.');
+  }
+}
+
+// Check admin access on page load
+checkAdminAccess();
+
+// Secret key combination to unlock (Ctrl+Shift+D)
+document.addEventListener('keydown', (e) => {
+  if (e.ctrlKey && e.shiftKey && e.key === 'D') {
+    e.preventDefault();
+    unlockDashboard();
+  }
+});
 
 // ── 2. TAB SWITCHING ────────────────────────────────────
 document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -93,7 +166,6 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     if (target === 'dashboard') loadDashboard();
   });
 });
-
 
 // ── 3. STAR RATING ──────────────────────────────────────
 let selectedRating = 0;
@@ -115,7 +187,6 @@ function updateStars(val) {
     b.classList.toggle('active', i < val);
   });
 }
-
 
 // ── ERROR HANDLING FUNCTIONS ───────────────────────────
 function showErr(id, msg) {
@@ -139,11 +210,45 @@ function clearAllErrors() {
 }
 
 // ── 4. FORM VALIDATION + POST ────────────────────────────
-document.getElementById('submit-btn').addEventListener('click', async () => {
+document.getElementById('submit-btn').addEventListener('click', async (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  
   const name     = document.getElementById('inp-name').value.trim();
   const email    = document.getElementById('inp-email').value.trim();
-  const category = document.getElementById('inp-category').value;
   const message  = document.getElementById('inp-message').value.trim();
+  
+  // Get FRESH values from Extra-Features.js hidden inputs (or fallbacks)
+  const categoryEl = document.getElementById('sig_category');
+  const ratingEl = document.getElementById('sig_rating');
+  
+  // Read values fresh each time validation runs
+  let category = '';
+  if (categoryEl && categoryEl.value.trim()) {
+    category = categoryEl.value.trim();
+  } else {
+    const catSelect = document.getElementById('inp-category');
+    category = catSelect ? catSelect.value.trim() : '';
+  }
+  
+  // Capitalize first letter of category
+  if (category) {
+    category = category.charAt(0).toUpperCase() + category.slice(1).toLowerCase();
+  }
+  
+  // Get rating from slider or fallback
+  let rawRating = 0;
+  if (ratingEl && ratingEl.value) {
+    rawRating = parseFloat(ratingEl.value);
+  } else {
+    rawRating = selectedRating;
+  }
+  let rating = Math.round(rawRating / 2); // 0-10 -> 0-5
+  if (rating < 1) rating = 1;
+  if (rating > 5) rating = 5;
+  
+  console.log('Category value:', category, 'from element:', categoryEl ? categoryEl.value : 'no sig_category');
+  console.log('Rating value:', rating, 'from element:', ratingEl ? ratingEl.value : 'no sig_rating');
 
   // clear old errors
   clearAllErrors();
@@ -165,7 +270,7 @@ document.getElementById('submit-btn').addEventListener('click', async () => {
     showErr('err-category', '⚠ Please select a category.');
     ok = false;
   }
-  if (!selectedRating) {
+  if (!rating || rating === 0) {
     showErr('err-rating', '⚠ Please select a rating.');
     ok = false;
   }
@@ -185,17 +290,19 @@ document.getElementById('submit-btn').addEventListener('click', async () => {
   try {
     // Use XMLHttpRequest instead of fetch for better browser compatibility
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://localhost:3000/api/feedback', true);
+    xhr.open('POST', `${API_URL}/api/feedback`, true);
     xhr.setRequestHeader('Content-Type', 'application/json');
 
     xhr.onreadystatechange = function() {
+      console.log('XHR readyState:', xhr.readyState, 'status:', xhr.status);
       if (xhr.readyState === 4) {
         btn.disabled = false;
-        text.textContent = '⟶  TRANSMIT SIGNAL';
+        text.textContent = 'SEND FEEDBACK';
 
         if (xhr.status === 200 || xhr.status === 201) {
           try {
             const result = JSON.parse(xhr.responseText);
+            console.log('Server response:', result);
             if (result.success) {
               // Clear ALL error messages first
               clearAllErrors();
@@ -229,9 +336,11 @@ document.getElementById('submit-btn').addEventListener('click', async () => {
               showToast('⚠ SERVER ERROR', result.error || 'Something went wrong.', true);
             }
           } catch (e) {
+            console.error('Parse error:', e, 'Response:', xhr.responseText);
             showToast('⚠ PARSE ERROR', 'Invalid response from server.', true);
           }
         } else {
+          console.error('Server error:', xhr.status, xhr.statusText, 'Response:', xhr.responseText);
           let errorMsg = 'Cannot reach server. Is it running?';
           if (xhr.status === 0) {
             errorMsg = 'Network error: Cannot connect to server. Check if server is running on port 3000.';
@@ -247,11 +356,11 @@ document.getElementById('submit-btn').addEventListener('click', async () => {
 
     xhr.onerror = function() {
       btn.disabled = false;
-      text.textContent = '⟶  TRANSMIT SIGNAL';
+      text.textContent = 'SEND FEEDBACK';
       showToast('⚠ NETWORK ERROR', 'Cannot connect to server. Check your connection.', true);
     };
 
-    xhr.send(JSON.stringify({ name, email, category, rating: selectedRating, message }));
+    xhr.send(JSON.stringify({ name, email, category, rating: rating, message }));
 
   } catch (e) {
     console.error('Form submission error:', e);
@@ -267,7 +376,7 @@ document.getElementById('submit-btn').addEventListener('click', async () => {
     
     showToast('⚠ CONNECTION ERROR', errorMsg, true);
     btn.disabled = false;
-    text.textContent = '⟶  TRANSMIT SIGNAL';
+    text.textContent = 'SEND FEEDBACK';
   }
 });
 
@@ -283,15 +392,17 @@ function resetForm() {
 // Load side panel stats on form page
 function loadSideStats() {
   const xhr = new XMLHttpRequest();
-  xhr.open('GET', 'http://localhost:3000/api/stats', true);
+  xhr.open('GET', `${API_URL}/api/stats`, true);
   
   xhr.onload = function() {
     if (xhr.status === 200) {
       try {
         const data = JSON.parse(xhr.responseText);
         if (data.success) {
-          document.getElementById('side-total').textContent = data.data.total;
-          document.getElementById('side-avg').textContent   = data.data.avg || '—';
+          const totalEl = document.getElementById('side-total');
+          const avgEl = document.getElementById('side-avg');
+          if (totalEl) totalEl.textContent = data.data.total;
+          if (avgEl && data.data.avg) avgEl.textContent = data.data.avg;
         }
       } catch (e) {
         console.error('Stats parsing error:', e);
@@ -308,45 +419,34 @@ function loadSideStats() {
 
 loadSideStats();
 
-
-// ── 5. DASHBOARD ─────────────────────────────────────────
 let allFeedbacks   = [];
 let activeFilter   = 'All';
 
-async function loadDashboard() {
-  await loadStats();
-  await loadFeedbacks();
+function loadDashboard() {
+  loadStats();
+  loadFeedbacks();
 }
 
 function loadStats() {
   const xhr = new XMLHttpRequest();
-  xhr.open('GET', 'http://localhost:3000/api/stats', true);
+  xhr.open('GET', `${API_URL}/api/stats`, true);
+  // No auth required anymore
   
   xhr.onload = function() {
     if (xhr.status === 200) {
       try {
         const data = JSON.parse(xhr.responseText);
-        if (!data.success) return;
-
-        const { total, avg, todayCount, catResult, ratingResult } = data.data;
-
-        document.getElementById('d-total').textContent = total;
-        document.getElementById('d-avg').textContent   = avg || '—';
-        document.getElementById('d-today').textContent = todayCount;
-
-        const bugObj = catResult.find(c => c._id === 'Bug');
-        document.getElementById('d-bugs').textContent  = bugObj ? bugObj.count : 0;
-
-        renderCatChart(catResult);
-        renderRatingChart(ratingResult);
+        if (data.success) {
+          const { total, todayCount } = data.data;
+          const totalEl = document.getElementById('d-total');
+          const todayEl = document.getElementById('d-today');
+          if (totalEl) totalEl.textContent = total;
+          if (todayEl) todayEl.textContent = todayCount;
+        }
       } catch (e) {
         console.error('Stats parsing error:', e);
       }
     }
-  };
-  
-  xhr.onerror = function() {
-    console.error('Stats loading error: Cannot connect to server');
   };
   
   xhr.send();
@@ -354,7 +454,7 @@ function loadStats() {
 
 function loadFeedbacks() {
   const xhr = new XMLHttpRequest();
-  xhr.open('GET', 'http://localhost:3000/api/feedback', true);
+  xhr.open('GET', `${API_URL}/api/feedback`, true);
   
   xhr.onload = function() {
     if (xhr.status === 200) {
@@ -384,7 +484,6 @@ function loadFeedbacks() {
 
 // Refresh button
 document.getElementById('refresh-btn').addEventListener('click', loadDashboard);
-
 
 // ── 6. CHARTS ────────────────────────────────────────────
 function renderCatChart(catResult) {
@@ -507,9 +606,14 @@ function deleteFeedback(e, id) {
   if (!confirm('Delete this feedback?')) return;
 
   const xhr = new XMLHttpRequest();
-  xhr.open('DELETE', `http://localhost:3000/api/feedback/${id}`, true);
+  xhr.open('DELETE', `${API_URL}/api/feedback/${id}`, true);
+  xhr.setRequestHeader('Authorization', 'Bearer admin123');
   
   xhr.onload = function() {
+    if (xhr.status === 401) {
+      alert('Unauthorized! Please unlock dashboard first.');
+      return;
+    }
     if (xhr.status === 200) {
       try {
         const data = JSON.parse(xhr.responseText);
