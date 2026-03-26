@@ -1,5 +1,10 @@
 // ═══════════════════════════════════════════════════════
-const API_URL = ''; // Empty = same domain (full-stack deployment)
+// Auto-detect: Use same domain if deployed, Render URL if local
+const API_URL = (window.location.hostname === 'localhost' || 
+                 window.location.hostname === '127.0.0.1' ||
+                 window.location.protocol === 'file:') 
+                 ? 'https://feedbackform-project-finl-review-1.onrender.com' 
+                 : '';
 //  script.js  —  HearMe Frontend Logic
 //  Sections:
 //    1. Particle Canvas
