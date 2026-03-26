@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════
-const API_URL = 'https://feedbackform-project-finl-review-1.onrender.com';
+const API_URL = ''; // Empty = same domain (full-stack deployment)
 //  script.js  —  HearMe Frontend Logic
 //  Sections:
 //    1. Particle Canvas
