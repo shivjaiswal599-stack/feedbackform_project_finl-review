@@ -78,15 +78,72 @@ const API_URL = ''; // Empty = same domain (full-stack deployment)
 })();
 
 // ── ADMIN PASSWORD PROTECTION ─────────────────────────────
-const ADMIN_PASSWORD = 'admin123'; // Change this to your password
-const ADMIN_KEY = 'admin_unlocked'; // localStorage key
+// Password is obfuscated - decode at runtime
+const ADMIN_PASSWORD = atob('YWRtaW4xMjM='); // Base64 encoded 'admin123'
+const ADMIN_KEY = 'hearme_admin_auth'; // localStorage key
 let dashboardUnlocked = false;
+
+// Create dashboard HTML dynamically (hidden from public)
+function createDashboardPage() {
+  if (document.getElementById('page-dashboard')) return;
+  
+  const dashboardHTML = `
+  <main class="page" id="page-dashboard">
+    <div class="page-intro">
+      <p class="label-tag">// MISSION CONTROL</p>
+      <h1 class="hero-title">FEEDBACK <span>DASHBOARD.</span></h1>
+    </div>
+    <div class="stats-row">
+      <div class="stat-box"><div class="stat-num cyan" id="d-total">—</div><div class="stat-lbl">Total Signals</div></div>
+      <div class="stat-box"><div class="stat-num pink" id="d-avg">—</div><div class="stat-lbl">Avg Rating</div></div>
+      <div class="stat-box"><div class="stat-num green" id="d-today">—</div><div class="stat-lbl">Today</div></div>
+      <div class="stat-box"><div class="stat-num orange" id="d-bugs">—</div><div class="stat-lbl">Bug Reports</div></div>
+    </div>
+    <div class="charts-row">
+      <div class="glass-card chart-card"><p class="chart-title">// Category Breakdown</p><div id="cat-chart" class="bar-chart"></div></div>
+      <div class="glass-card chart-card"><p class="chart-title">// Rating Distribution</p><div id="rating-chart" class="bar-chart"></div></div>
+    </div>
+    <div class="table-controls">
+      <div class="filter-group">
+        <span class="filter-lbl">Filter:</span>
+        <button class="filter-btn active" data-cat="All">All</button>
+        <button class="filter-btn" data-cat="General">General</button>
+        <button class="filter-btn" data-cat="Bug">Bug</button>
+        <button class="filter-btn" data-cat="Feature">Feature</button>
+        <button class="filter-btn" data-cat="Praise">Praise</button>
+      </div>
+      <div class="right-controls">
+        <input class="search-box" id="search-box" placeholder="⌕  Search..."/>
+        <button class="refresh-btn" id="refresh-btn">↺ Refresh</button>
+      </div>
+    </div>
+    <div class="table-card glass-card">
+      <div class="table-head"><span>#</span><span>Sender / Message</span><span>Category</span><span>Rating</span><span>Date</span><span>Action</span></div>
+      <div id="table-body"><div class="tbl-empty">⟳ Loading transmissions...</div></div>
+    </div>
+  </main>`;
+  
+  document.body.insertAdjacentHTML('beforeend', dashboardHTML);
+  
+  // Add event listeners for new elements
+  document.querySelectorAll('#page-dashboard .filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#page-dashboard .filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFilter = btn.dataset.cat;
+      renderTable();
+    });
+  });
+  
+  document.getElementById('search-box').addEventListener('input', renderTable);
+  document.getElementById('refresh-btn').addEventListener('click', loadDashboard);
+}
 
 // Check if this device has been unlocked before
 function checkAdminAccess() {
   const isUnlocked = localStorage.getItem(ADMIN_KEY);
   if (isUnlocked === 'true') {
-    // Auto-show dashboard on this device
+    createDashboardPage();
     showDashboardTab();
     dashboardUnlocked = true;
     console.log('Admin access granted on this device');
@@ -96,8 +153,6 @@ function checkAdminAccess() {
 // Create and show dashboard tab
 function showDashboardTab() {
   const tabsNav = document.querySelector('.tabs');
-  
-  // Check if tab already exists
   if (document.querySelector('[data-tab="dashboard"]')) return;
   
   const dashboardTab = document.createElement('button');
@@ -119,20 +174,14 @@ function unlockDashboard() {
   const password = prompt('Enter admin password:');
   if (password === ADMIN_PASSWORD) {
     dashboardUnlocked = true;
-    
-    // Save to localStorage so dashboard shows on this device
     localStorage.setItem(ADMIN_KEY, 'true');
-    
-    // Show dashboard tab
+    createDashboardPage();
     showDashboardTab();
-    
-    // Switch to dashboard
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelector('[data-tab="dashboard"]').classList.add('active');
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById('page-dashboard').classList.add('active');
     loadDashboard();
-    
     alert('Dashboard unlocked! This device now has permanent admin access.');
   } else {
     alert('Wrong password! Access denied.');
