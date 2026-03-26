@@ -346,13 +346,13 @@ body {
 }
 
 /* First card - Purple gradient */
-.side-stat-card:nth-child(1) {
-  background: linear-gradient(135deg, rgba(138, 43, 226, 0.1), rgba(75, 0, 130, 0.05));
-  border: 1px solid rgba(138, 43, 226, 0.3);
+aside .side-col .glass-card.side-stat-card:nth-child(1) {
+  background: linear-gradient(135deg, rgba(138, 43, 226, 0.1), rgba(75, 0, 130, 0.05)) !important;
+  border: 1px solid rgba(138, 43, 226, 0.3) !important;
   position: relative;
   transition: all 0.4s ease;
 }
-.side-stat-card:nth-child(1)::before {
+aside .side-col .glass-card.side-stat-card:nth-child(1)::before {
   content: '';
   position: absolute;
   top: -50%;
@@ -364,23 +364,23 @@ body {
   opacity: 0;
   transition: opacity 0.3s;
 }
-.side-stat-card:nth-child(1):hover::before {
+aside .side-col .glass-card.side-stat-card:nth-child(1):hover::before {
   opacity: 1;
 }
-.side-stat-card:nth-child(1):hover {
-  background: linear-gradient(135deg, rgba(138, 43, 226, 0.2), rgba(75, 0, 130, 0.1));
-  border-color: rgba(138, 43, 226, 0.6);
-  box-shadow: 0 0 40px rgba(138, 43, 226, 0.3), inset 0 0 20px rgba(138, 43, 226, 0.1);
+aside .side-col .glass-card.side-stat-card:nth-child(1):hover {
+  background: linear-gradient(135deg, rgba(138, 43, 226, 0.2), rgba(75, 0, 130, 0.1)) !important;
+  border-color: rgba(138, 43, 226, 0.6) !important;
+  box-shadow: 0 0 40px rgba(138, 43, 226, 0.3), inset 0 0 20px rgba(138, 43, 226, 0.1) !important;
 }
 
 /* Second card - Emerald gradient */
-.side-stat-card:nth-child(2) {
-  background: linear-gradient(135deg, rgba(0, 255, 127, 0.1), rgba(0, 128, 128, 0.05));
-  border: 1px solid rgba(0, 255, 127, 0.3);
+aside .side-col .glass-card.side-stat-card:nth-child(2) {
+  background: linear-gradient(135deg, rgba(0, 255, 127, 0.1), rgba(0, 128, 128, 0.05)) !important;
+  border: 1px solid rgba(0, 255, 127, 0.3) !important;
   position: relative;
   transition: all 0.4s ease;
 }
-.side-stat-card:nth-child(2)::before {
+aside .side-col .glass-card.side-stat-card:nth-child(2)::before {
   content: '';
   position: absolute;
   top: -50%;
@@ -392,13 +392,13 @@ body {
   opacity: 0;
   transition: opacity 0.3s;
 }
-.side-stat-card:nth-child(2):hover::before {
+aside .side-col .glass-card.side-stat-card:nth-child(2):hover::before {
   opacity: 1;
 }
-.side-stat-card:nth-child(2):hover {
-  background: linear-gradient(135deg, rgba(0, 255, 127, 0.2), rgba(0, 128, 128, 0.1));
-  border-color: rgba(0, 255, 127, 0.6);
-  box-shadow: 0 0 40px rgba(0, 255, 127, 0.3), inset 0 0 20px rgba(0, 255, 127, 0.1);
+aside .side-col .glass-card.side-stat-card:nth-child(2):hover {
+  background: linear-gradient(135deg, rgba(0, 255, 127, 0.2), rgba(0, 128, 128, 0.1)) !important;
+  border-color: rgba(0, 255, 127, 0.6) !important;
+  box-shadow: 0 0 40px rgba(0, 255, 127, 0.3), inset 0 0 20px rgba(0, 255, 127, 0.1) !important;
 }
 
 /* Third card - Sunset gradient */
