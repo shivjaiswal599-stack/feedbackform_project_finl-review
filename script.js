@@ -765,6 +765,18 @@ function closeModal() {
   }
 }
 
+// Test function - add to browser console to test modal
+window.testModal = function() {
+  const modalBg = document.getElementById('modal-bg');
+  if (modalBg) {
+    modalBg.classList.add('open');
+    modalBg.style.display = 'flex';
+    console.log('Modal shown via test function');
+  } else {
+    console.error('Modal element not found');
+  }
+};
+
 // Initialize modal listeners on page load
 initModalListeners();
 
